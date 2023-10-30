@@ -1,0 +1,13 @@
+Program ANAK BELI KELERENG
+{ Program ini menghitung harga yang harus dibayar anak yang membeli kelereng sejumlah m kelereng merah, h kelereng hijau, dan k kelereng kuning,
+  dengan m>=0, h>=0, k>=0 }
+
+KAMUS
+{ m merupakan jumlah kelereng merah dalam integer,
+  h merupakan jumlah kelereng hijau dalam integer, dan
+  k merupakan jumlah kelereng kuning dalam integer }
+    m,h,k : integer
+
+ALGORITMA
+input(m,h,k)
+output(m*10+h*15+k*20)

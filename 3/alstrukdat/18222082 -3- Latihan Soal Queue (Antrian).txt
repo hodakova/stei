@@ -1,0 +1,106 @@
+{Latihan Soal Queue (Antrian)}
+{18222082 - Ahmad Habibie Marjan}
+
+{Soal 1 – Circular Buffer}
+{a}
+constant IDX_UNDEF:integer=-1
+constant CAPACITY :integer= 100
+type ElType: <id:integer,cost:integer>
+type Queue: < buffer:array[0..CAPACITY-1] of ElType,
+             idxHead:integer,
+               count:integer>
+{b}
+function isFull(q:queue)→boolean
+{ mengirim true jika q penuh }
+  cheque:boolean
+  cheque←false
+  if(length(q)==capacity) then
+    cheque←true
+  →cheque
+{c}
+procedure enqueue (input/output q:queue, input val:ElType)
+{ Proses: menambahkan val pada q sebagai Tail baru }
+{ IS: q mungkin kosong, q tidak penuh }
+{ FS: val menjadi Tail baru dengan mekanisme circular buffer }
+  if(isEmpty(q)) then
+    q.buffer[0]←val
+    q.idxHead←0
+  else
+    q.buffer[Queue.idxHead+length(q)]←val
+  q.count←length(q)+1
+{d}
+procedure dequeue (input/output q: queue, output val: ElType)
+{ Proses: menyimpan nilai Head q ke val dan menghapus Head q }
+{ IS: q tidak kosong }
+{ FS: val adalah nilai elemen Head,
+  Head “bergerak” dengan mekanisme circular buffer.
+  q mungkin kosong}
+  val←head(q)
+  q.count←q.count-1
+  if(isEmpty(q)) then
+    q.idxHead←-1
+  else if(isFull(q)) then
+    q.idxHead←0
+  else
+    q.idxHead←q.idxHead+1
+
+
+{Soal 2 – Round Robin}
+procedure roundRobin (input/output q: queue, input t: integer)
+{ Proses: memproses elemen antrian q secara round robin}
+{ IS: q tidak kosong, t adalah waktu yang tersedia untuk memproses setiap elemen}
+{ FS: elemen e pada posisi HEAD dihapus dari q.
+    Jika cost e ≤ t maka
+      ditampilkan “<id> telah selesai diproses”.
+    Jika cost e > t maka
+      e disisipkan kembali sebagai tail q dengan
+    cost berkurang sebesar t }
+  e:ElType
+  dequeue(q,e)
+  if(e.cost≤t) then
+    output(e.id + " telah selesai diproses")
+  else
+    e.cost←e.cost-t
+    enqueue(q,e)
+
+
+{Soal 3 – Priority queue}
+{a}
+constant IDX_UNDEF:integer=-1
+constant CAPACITY :integer= 100
+type ElType: <id:integer,cost:integer>
+type Queue: < buffer:array[0..CAPACITY-1] of ElType,
+             idxHead:integer,
+               count:integer>
+{b}
+procedure enqueue (input/output q: queue, input val: ElType)
+{ Proses: menambahkan val sebagai elemen baru di q, 
+  dengan memperhatikan lamanya waktu pekerjaan tsb dapat diselesaikan,
+  yaitu pekerjaan yang lebih cost diletakkan lebih akhir.
+  Jika ada 2 pekerjaan yang cost waktunya sama,
+  pekerjaan terakhir yang baru datang disisipkan lebih belakang }
+{ IS: q mungkin kosong, q tidak penuh }
+{ FS: val menjadi elemen q yang baru dengan urutan waktu pekerjaan membesar }
+  i:integer
+  i←q.idxHead+length(q)-1
+  if(isEmpty(q)) then
+    q.buffer[0]←val
+    q.idxHead←0
+  else
+    while(val.cost>q.buffer[i] and i>=idxHead) do
+      q.buffer[i+1]←q.buffer[i]
+      i←i-1
+    q.buffer[i+1]←val
+{c}
+procedure dequeue(input/output q: queue, output val: ElType)
+{ Proses: menyimpan IDX_UNDEFa head q pada val dan menghapus head dari q }
+{ IS: q tidak kosong }
+{ FS: elemen pada HEAD dihapus, dan disimpan nilainya pada val }
+  val←head(q)
+  q.count←q.count-1
+  if(isEmpty(q)) then
+    q.idxHead←-1
+  else if(isFull(q)) then
+    q.idxHead←0
+  else
+    q.idxHead←q.idxHead+1

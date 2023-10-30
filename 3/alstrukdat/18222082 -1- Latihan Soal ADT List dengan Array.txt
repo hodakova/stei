@@ -1,0 +1,169 @@
+{Latihan ADR List dengan Array}
+{18222082 - Ahmad Habibie Marjan}
+
+
+{Latihan 1}
+
+function isSimetris(l:List)→boolean
+  i:integer
+  cheque:boolean
+  cheque←true
+  if(length(l)>1) then
+    i←0
+    while(i<length(l) div 2 and cheque=true) do
+      if(getElmt(i)≠getElmt(length(l)-1-i)) then
+        cheque←false
+      i←i+1
+  →cheque
+
+function plusTab(l1,l2:List)→List
+  i:integer
+  l3:List
+  CreateList(l3)
+  i traversal[0..length(l1)-1]
+    insertLast(l3,getElmt(l1,i)+getElmt(l2,i))
+  →l3
+
+function countOccurence(l:List,x:ElType)→integer
+  i,count:integer
+  count←0
+  if(length(l)>0) then
+    i traversal[0..length(l)-1]
+      if(getElmt(l,i)=x) then
+        count←count+1
+  →count
+
+function isEqual(l1,l2:List)→boolean
+  cheque:boolean
+  cheque←true
+  if(length(l1)=length(l2)) then
+    i traversal[0..length(l1)-1]
+      if(getElmt(l1,i)≠getElmt(l2,i) then
+        cheque←false
+  else
+    cheque←false
+  →cheque
+
+functuon indexOf(l:List,x:ElType)→IdxType
+  i:integer
+  res:IdxType
+  res←IdxUndef
+  if(length(l)>0) then
+    i←0
+    while(i<length(l) and res=IdxUndef) do
+      if(x=getElmt(l,i)) then
+        res←i
+  →res
+
+procedure insertUnique(input/output l:List, input x:ElType)
+  unique:boolean
+  unique←true
+  while(i<length(l) and unique=false) do
+    if(x=getElmt(l,i)) then
+      unique←false
+      output("nilai sudah ada")
+if not(unique) then
+  insertLast(l,x)
+
+
+{Latihan 2}
+{mengganti nEff dengan mark sehingga kodenya menjadi seperti:} 
+constant kapasitas: integer = 100
+constant idxUndef: integer = -1
+constant MARK: integer = -9999 {ditambahkan mark}
+type ElType: integer
+type List: < ti: array [0..kapasitas-1] of ElType > { tidak diperlukan nEff }
+
+
+{Latihan 3}
+{fungsi getFirstIdx dan getLastIdx dalam representasi array secara eksplisit dan implisit}
+{eksplisit dan implisit rata kiri}
+
+function getFirstIdx(l:List)→IdxType
+  res:IdxType
+  res←IdxUndef
+  if(length(l)>0) then
+    res←0
+  →res
+
+function getLastIdx(l:List)→IdxType
+  res:IdxType
+  res←IdxUndef
+  if(length(l)>0) then
+    res←length(l)-1
+  →res
+
+{eksplisit dan implisit tidak rata kiri}
+
+function getFirstIdx(l:List}→IdxType
+  res:IdxType
+  res←IdxUndef
+  if(length(l)>0) then
+    res←0
+    while not(isIdxEff(l,i)) do
+      res←res+1
+  →res
+
+function getLastIdx(l:List)→IdxType
+  res:IdxType
+  res←IdxUndef
+  if(length(l)>0) then
+    res←l.capacity-1
+    while not(isIdxEff(l,i)) do
+      res←res-1
+  →res
+
+{yang berubah pada fungsi-fungsi di latihan soal 1 jika untuk representasi implisit dengan asumsi rata kiri (juga) maka tidak ada yg berubah,
+ namun jika tidak rata kiri maka perlu ada yg diubah, yaitu pada traversal mengganti indeks awal..akhir traversalnya dari [0..length(l)-1] menjadi [getFirstIdx(l)..getLastIdx(l)]}
+
+
+{Latihan Soal 4a: ADT Array Eksplisit-Statik}
+
+procedure closestPair(input l:List; output p1,p2:ElType)
+{ I.S.: l terdefinisi, mungkin kosong, p1 dan p2 sembarang. }
+{ F.S.:
+    Jika l tidak kosong, p1 dan p2 berisi 2 elemen l pada posisi berurutan yang memiliki selisih (selalu positif) terkecil.
+    Jika kedua elemen nilainya berbeda, maka p1 adalah elemen yang bernilai lebih kecil.
+    Jika ada beberapa pasang elemen yang memiliki selisih terkecil, maka diambil pasangan elemen yang muncul pertama kali.
+    Jika l kosong atau hanya terdiri atas 1 elemen, p1 dan p2 berisi elemen tidak terdefinisi yaitu -999 }
+{ Contoh:
+    l.ti = [5,3,10,11,20,19]; maka p1=10 dan p2=11
+    l.ti = [-2,10,7,30,40,43,9]; maka p1=7 dan p2=10
+    l.ti = [-2,10,10,40,40]; maka p1=10 dan p2=10 }
+' i,j:IdxType
+  diff,temp:integer
+  if(length(l)<2) then {asumsi fungsi primitif dapat dipakai}
+    p1←-999
+    p2←-999
+  else
+    p1←getElmt(l,0)
+    p2←getElmt(l,1)
+    i traversal[0..length(l)-2] {asumsi rata kiri}
+      j traversal[i+1..length(l)-1]
+        if(abs(getElmt(l,j)-getElmt(l,i))<abs(p2-p1)) then {fungsi buatan}
+          p1←getElmt(l,i)
+          p2←getElmt(l,j)
+    if(p1>p2) then
+      temp←p1
+      p1←p2
+      p2←temp
+
+
+{Latihahn 4b}
+function isFront(l1,l2:List)→boolean
+  { Mengembalikan true jika elemen-elemen l1 merupakan bagian awal dari l2 }
+  { Contoh:
+      isFront ([2,3,4], [2,3,4,5,6]) = true
+      isFront ([2,3,4], [3,4,5,6]) = false
+      isFront ([], [2,3,4,5,6]) = true
+      isFront ([2,3,4], [2,3]) = false
+      isFront ([2,3,4], []) = false }
+  i:integer
+  cheque:boolean
+  cheque←false
+  if(length(l2)>=length(l1)) then
+    cheque←true
+    i traversal[0..length(l1)-1] {asumsi rata kiri}
+      if(getElmt(l1,i)≠getElmt(l2,i) then
+        cheque←false
+  →cheque

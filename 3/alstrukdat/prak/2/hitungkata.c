@@ -1,8 +1,8 @@
-// NIM             : 18222082
-// Nama            : Ahmad Habibie Marjan
-// Tanggal         : 12-09-23
-// Topik praktikum : Prapraktikum 2
-// Deskripsi       : Program untuk menghitung banyak kata
+// NIM       : 18222082
+// Nama      : Ahmad Habibie Marjan
+// Tanggal   : 23年09月12日
+// Topik     : Prapraktikum 2
+// Deskripsi : Program untuk menghitung banyak kata
 
 #include <stdio.h>
 

@@ -1,0 +1,42 @@
+Program MEMBANDINGKAN 2 LUAS SEGI EMPAT
+{ Program menerima 2 matriks yang berisi titik (x,y) awal dan akhir dari segi empat s1 dan s2
+  dan akan mengeluarkan manakah yang lebih besar luasnya atau sama besar. }
+
+KAMUS
+s1, s2: array [1..2] of array [1..2] of integer {matriks 2x2}
+i, j, k: integer
+
+ALGORITMA
+{mengisi matriks s1 dan s2}
+m ← 0
+while m < 2 do
+    m ← m + 1
+    if m = 1 then
+        output("Masukkan nilai Segi Empat s1:")
+    else
+        s1 ← s2 {menyalin matriks s2 ke matriks s1, saat m bernilai 2}
+        output("Masukkan nilai Segi Empat s2:")
+    i traversal [1..2]
+        if i = 1 then
+            output("Masukkan nilai TAwal:")
+        else
+            output("Masukkan nilai TAkhir:")
+        j traversal [1..2]
+            if j = 1 then
+                output("x = ")
+            else
+                output("y = ")
+            input(s2[i][j]) {dimulai dengan menyimpan matriks s1 pada matriks s2, saat m=1,
+                             meng-overwrite s2 dengan nilai s2 yang seharusnya, I.S.}
+    if s2[1][1] = s2[2][1] or s2[1][2] = s2[2][2] then
+        output("TAwal dan TAkhir tidak boleh memiliki nilai x atau y yang sama")
+        m = 3 {saat m bernilai 3, loop akan berhenti (3 tidak < 2)} 
+
+if m = 2 then {saat m bernilai 3, program tidak akan memroses input}
+    depend on
+    abs (s1[1][1]-s1[2][1]) * abs (s1[1][2]-s1[2][2]) > abs (s2[1][1]-s2[2][1])^2 * abs (s2[1][2]-s2[2][2])^2 : {dimultakkan agar tidak negatif}
+        output("SegiEmpat pertama lebih luas daripada SegiEmpat kedua") {F.S.}
+    abs (s1[1][1]-s1[2][1]) * abs (s1[1][2]-s1[2][2]) < abs (s2[1][1]-s2[2][1])^2 * abs (s2[1][2]-s2[2][2])^2 :
+        output("SegiEmpat kedua lebih luas daripada SegiEmpat pertama") {F.S.}
+    else : output("Luas SegiEmpat sama") {F.S.}
+{jika m tidak = 2 maka program akan berhenti, F.S.}

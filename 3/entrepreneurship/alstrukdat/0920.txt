@@ -1,0 +1,14 @@
+{menghitung banyak char A yg diikuti char B}
+
+ctr : integer
+temp : char
+
+ctr <- 0
+temp <- ''
+start
+while (cc/= MARK) do
+  if temp='A' and cc='B' then
+    ctr++
+  temp <- cc
+  adv
+output(ctr)

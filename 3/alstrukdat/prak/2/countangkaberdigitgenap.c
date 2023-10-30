@@ -1,8 +1,8 @@
-// NIM             : 18222082
-// Nama            : Ahmad Habibie Marjan
-// Tanggal         : 12-09-23
-// Topik praktikum : Prapraktikum 2
-// Deskripsi       : Program menentukan banyak angka yang memiliki jumlah digiy genap
+// NIM       : 18222082
+// Nama      : Ahmad Habibie Marjan
+// Tanggal   : 23年09月15日
+// Topik     : Prapraktikum 2
+// Deskripsi : Program menentukan banyak angka yang memiliki jumlah digit genap
 
 #include <stdio.h>
 

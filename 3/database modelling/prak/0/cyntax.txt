@@ -1,0 +1,10 @@
+>mysql -u root -p
+mysql> show databases;
+mysql> create database prak0;
+mysql> use prak0;
+mysql> source world.sql;
+mysql> show tables;
+mysqk> describe <relasi>;
+mysql> <operasi>;
+mysql> drop database prak0;
+mysql> exit

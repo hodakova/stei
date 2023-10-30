@@ -1,0 +1,123 @@
+{Latihan ADR List dengan Array}
+{18222082 - Ahmad Habibie Marjan}
+
+
+{Soal 1: Frekuensi Kata Pertama}
+
+Program FrekuensiKataPertama
+{Program yang menentukan frekuensi kata pertama dalam sebuah kalimat.}
+  USE MesinKata1
+  i,count,tot:integer
+  kataAwal:Kata
+  startKata
+  if(endKata) then
+    output("Pita karakter kosong.")
+  else
+
+    CopyKata(currentKata,kataAwal)
+    count←1
+    tot←1
+    while not(endKata) do
+      advKata
+      if(isKataEqual(currentKata,kataAwal)) then
+        count←count+1
+      tot←tot+1
+    output("Frekuensi " + kataAwal + " adalah " + count + "/" + tot + ".")
+
+procedure CopyKata(input kIn:Kata, output kOut:Kata)
+{ menyaliin isi kIn ke kOut }
+{ I.S. kIn terdefinisi, kOut sembarang }
+{ F.S. kOut identik kIn }
+  i traversal[0..kIn.length]
+    kOut.buffer[i]←kIn.buffer[i]
+  kOut.length←kIn.length
+
+
+{Soal 2: Anagram}
+
+Program BanyakAnagram
+{Program yang menentukan banyaknya kata yang merupakan anagram dari kata pertama}
+  USE MesinKata1
+  count:integer
+  kataAwal:Kata
+
+  startKata
+  if(endKata) then
+    output("Pita karakter kosong.")
+  else
+    CopyKata(currentKata,kataAwal)
+    count←0
+    while not(endKata) do
+      advKata
+      if(isAnagram(kataAwal,currentKata)) then
+        count←count+1
+    output("Terdapat " + count + " kata yang merupakan anagram dari kata " + kataAwal + ".")
+
+function isAnagram(k1,k2:Kata)→boolean
+{fungsi yg menentukan apakah k2 merupakan anagram k1 atau bukan}
+  i,j:integer
+  temp:Kata
+  res:boolean
+  CopyKata(k1,temp)
+  res←false
+  if(k1.length=k2.length) then
+    res←true
+    i traversal[0..k1.length-1]
+      j traversal[0..k1.length-1]
+        if(k2.buffer[i]=temp.buffer[j]) then
+          temp.buffer[j]←'#'
+    i traversal[0..k1.length-1]
+      if(temp.buffer[i]≠'#') then
+        res←false
+  →res
+
+
+{Soal 3: Mesin Token}
+
+Program Postfix2Infix
+{Program yang mengubah notasi matematika dari postfix menjadi infix}
+
+constant IDX_UNDEF: integer = -1
+constant CAPACITY: integer = 50
+
+type Token: Kata
+type ElType: Token { elemen Stack }
+{ Stack dengan array statik }
+type Stack: < buffer: array [0..CAPACITY-1] of ElType, { penyimpanan elemen }
+              idxTop: integer > { indeks elemen teratas }
+
+  USE MesinKata1
+
+  s:Stack
+  t1,t2:Token
+
+  CreateStack(s)
+  StartKata
+  while(not(isEndKata)) do
+  if(isOperand(currentKata) then
+    push(s,currentKata)
+  else
+    pop(s,t2)
+    pop(s,t1)
+    push(s,Evaluate(t1,t2,cc)))
+
+function isOperand(x:Token)→boolean
+  i:integer
+  r:boolean
+  r←false
+  i traversal[0..9]
+    if(x.buffer[0]=i) then
+      r←true
+  →r
+
+function Evaluate(t1,t2:Token,cc:character)→integer
+  r:Kata
+  i:integer
+  CopyKata(t1,r)
+  r.buffer[r.length]←BLANK
+  r.buffer[r.length+1]←cc
+  r.buffer[r.length+2]←BLANK
+  i traversal[0..t2.length-1]
+    r.buffer[r.length+3+i]←t2.buffer[i]
+  r.length←r.length+3+t2.length
+  →r

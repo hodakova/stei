@@ -1,0 +1,103 @@
+{Latihan Soal ADT List dengan Struktur Berkait}
+{18222082 - Ahmad Habibie Marjan}
+
+
+{Soal 1: Fungsi countPos}
+
+function countPos(l : List) → integer
+  p : Adress
+  count : integer
+  p ← l
+  count ← 0
+  while(p ≠ NIL) do
+    if(p↑.info > 0) then
+      count ← count + 1
+    p ← p↑.next
+  → count
+
+
+{Soal 2: Fungsi max}
+
+function max(l : List) → integer
+  p : Adress
+  maks : integer
+  p ← l
+  maks ← p↑.info
+  p ← p↑.next
+  while(p ≠ NIL) do
+    if(p↑.info > maks) then
+      maks ← p↑.info
+    p ← p↑.next
+  → maks
+
+
+{Soal 3: Fungsi searchPos}
+
+function searchPos(l : List) → Adress
+  p, r : Adress
+  p ← List
+  r ← NIL
+  while(p ≠ NIL and r = NIL) do
+    if(p↑.info > 0) then
+      r ← p↑.next
+    else
+      p ← p↑.next
+  → r
+
+
+{Soal 4: Prosedur deleteNeg}
+
+procedure deleteNeg(input/output l:List)
+  p : Adress
+  i : integer
+  temp : ElType
+  p ← l
+  i ← 0
+  while(i < length(l)) do
+    if(p↑.info < 0) then
+      deleteAt(l, i, temp)
+    else
+      i ← i + 1
+
+
+{Soal 5: Prosedur copyPos}
+
+procedure copyPos(input l1:List, output l2:List)
+  p : Adress
+  CreateList(l2)
+  p ← l1
+  while(p ≠ NIL) do
+    if(p↑.info > 0) then
+      insertLast(l2, p↑.info)
+    p ← p↑.next
+
+
+{Soal 6: Prosedur sortedInsert}
+
+procedure sortedInsert(input/output l:List, input x:ElType)
+  p : Adress
+  i : integer
+  p ← l
+  i ← 0
+  while(p ≠ NIL and p↑.info < x) do
+    p ← p↑.next
+    i ← i + 1
+  insertAt(l, x, i)
+
+
+{Soal 7: Prosedur updateList}
+
+procedure updateList(input x,y: infotype, input/output l: List)
+  p : Adress
+  found : boolean
+  i : integer
+  p ← l1
+  found ← false
+  i ← 0
+  while(p ≠ NIL and not found) do
+    if(p↑.info = x) then
+      found ← true
+      setElmt(l, i, y)
+    else
+      p ← p↑.next
+      i ← i + 1

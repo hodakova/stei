@@ -1,0 +1,158 @@
+{Latihan Soal ADR Stack}
+{18222082 - Ahmad Habibie Marjan}
+
+
+{Soal 1: Soal Pertama}
+
+procedure copyStack(input sIn: Stack, output sOut: Stack)
+{ Membuat salinan sOut }
+{ I.S. sIn terdefinisi, sOut sembarang }
+{ F.S. sOut berisi salinan sIn yang identik }
+  t:Stack
+  x:ElType
+  CreateStack(t)
+  repeat length(sIn) times
+    pop(sIn,x)
+    push(t,x)
+  repeat length(sIn) times
+    pop(t,x)
+    push(sIn,x)
+    push(sOut,x)
+
+procedure inverseStack(input/output s: Stack)
+{ Membalik isi suatu stack }
+{ I.S. s terdefinisi }
+{ F.S. Isi s terbalik dari posisi semula }
+  t:Stack
+  x:ElType
+  CreateStack(t)
+  repeat length(s) times
+    pop(s,x)
+    push(t,x)
+  copyStack(t,s)
+
+function mergeStack(s1,s2: Stack)→Stack
+{ Menghasilkan sebuah stack yang merupakan hasil penggabungan s1
+dengan s2 dengan s1 berada di posisi lebih “bawah”. Urutan kedua
+stack harus sama seperti aslinya. }
+{ Stack baru diisi sampai seluruh elemen s1 dan s2 masuk ke dalam
+stack, atau jika stack baru sudah penuh, maka elemen yang
+dimasukkan adalah secukupnya yang dapat ditampung. }
+  r,t:Stack
+  x:ElType
+  CreateStack(r)
+  CreateStack(t)
+  copyStack(s1,r)
+  repeat length(s2) times
+    pop(s2,x)
+    push(t,x)
+  repeat length(s2) times
+    pop(t,x)
+    push(s2,x)
+    if(not(isFull(r)) then
+      push(r,x)
+  →r
+
+
+{Soal 2: Soal kedua}
+{ Dengan memanfaatkan mesin kata (versi 1), modifikasi dan lengkapi program Evaluasi Ekspresi Aritmatika pada slide materi kuliah.
+  Pita karakter berisi ekspresi aritmatika dengan masing-masing “kata” dipisahkan oleh satu atau lebih BLANK.
+  Kata yang merupakan operan merepresentasikan sebuah bilangan, contoh: “123” merepresentasikan bilangan 123
+  Contoh isi pita: 123 3 *
+  Dengan demikian, harus dibuat ADT Stack of Kata. Gunakan ADT Stack dengan representasi array statik-eksplisit.
+  Harus dibuat pula fungsi yang mengubah suatu Kata yang merepresentasikan operan menjadi angka/integer.
+  Diasumsikan hanya ada integer positif atau 0. }
+  
+constant IDX_UNDEF: integer = -1
+constant CAPACITY: integer = 50
+type ElType: Kata { elemen Stack }
+{ Stack dengan array statik }
+type Stack: < buffer: array [0..CAPACITY-1] of ElType, { penyimpanan elemen }
+              idxTop: integer > { indeks elemen teratas }
+
+  USE MesinKata1
+
+  s:Stack
+  t1,t2:integer
+  x:Kata
+
+  CreateStack(s)
+  StartKata
+  while(not(isEndKata)) do
+  if(isOperand(currentKata) then
+    push(s,currentKata)
+  else
+    pop(s,x)
+    t2←Kata2Integer(x)
+    pop(s,x)
+    t1←Kata2Integer(x)
+    push(s,Integer2Kata(Operate(t1,t2,cc)))
+
+function isOperand(x:Kata)→boolean
+  i:integer
+  r:boolean
+  r←false
+  i traversal[0..9]
+    if(x.buffer[0]=i) then
+      r←true
+  →r
+
+function Operate(t1,t2:integer,cc:character)→integer
+  r:integer
+  if(cc=='+') then
+    r←t1+t2
+  else if(cc=='-') then
+    r←t1-t2
+  else if(cc=='*') then
+    r←t1*t2
+  else if(cc=='/') then
+    r←t1/t2
+  else if(cc=='^') then
+    r←t1^t2
+  →r
+
+function Kata2Integer(operand:Kata)→integer
+  r,i:integer
+  r←0
+  i traversal[operand.length-1..0]
+    r←r+operand.buffer[i]*10^(length-1-i)
+  →r
+
+function Integer2Kata(operand:integer)→Kata
+  t,r:Kata
+  x,i:integer
+  x←operand
+  i←0
+  while(x>0) do
+    t.buffer[i]←x%10
+    x←x/10
+    i←i+1
+  t.length←i
+  i traversal[0..t.length-1]
+    r.buffer[i]←t.buffer[t.length-1-i]
+  r.length←t.length
+  →r
+
+function Float2Kata(operand:float)→Kata
+  t,r:Kata
+  i:integer
+  x:float
+  x←operand
+  i←0
+  while(x≥1) do
+    t.buffer[i]←x%10
+    x←x/10
+    i←i+1
+  if(x<1) then
+    t.buffer[i]←'.'
+    i←i+1
+    x←x*100
+  while(x≥1) do
+    t.buffer[i]←x%10
+    x←x/10
+    i←i+1
+  t.length←i
+  i traversal[0..t.length-1]
+    r.buffer[i]←t.buffer[t.length-1-i]
+  r.length←t.length
+  →r
