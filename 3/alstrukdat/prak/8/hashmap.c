@@ -2,7 +2,7 @@
 // Nama      : Ahmad Habibie Marjan
 // Tanggal   : 23年11月03日
 // Topik     : Prapraktikum 8
-// Deskripsi : Program implementasi hashmap.c
+// Deskripsi : Program implementasi hashmap.h
 
 #include "hashmap.h"
 
@@ -30,11 +30,14 @@ valuetype Value(HashMap M, keytype k)
 /* Mengembalikan nilai value dengan key k dari M */
 /* Jika tidak ada key k pada M, akan mengembalikan Undefined */
 {
+    int i = Hash(k);
     valuetype v = Undefined;
-    for(int i = 0; i < MaxEl; i ++) {
-        if(M.Elements[i].Key == k)
-            v = M.Elements[i].Value;
+    while(M.Elements[i].Key != k && M.Elements[i].Key != Undefined) {
+        i ++;
+        i % MaxEl;
     }
+    if(M.Elements[i].Key == k)
+        v = M.Elements[i].Value;
     return v;
 }
 

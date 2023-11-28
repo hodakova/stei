@@ -1,0 +1,53 @@
+{20231103 - Latihan Soal Variasi List Linier}
+{18222082 - Ahmad Habibie Marjan}
+
+{Soal 1 - Prosedur insertFirst}
+{Buatlah prosedur insertFirst untuk sebuah list l dengan
+l adalah List yang mencatat elemen pertama (First) dan elemen terakhir (Last)}
+
+procedure insertFirst(input/output l:List, input x:ElType)
+    {List l mungkin kosong}
+    p : Adress
+    p ← newNode(x)
+    if(p ≠ NIL) then
+        if(isEmpty(l)) then
+            l.last ← p
+        else
+            p↑.next ← l
+            (l.first)↑.prev ← p
+        l.first ← p
+
+
+{Soal 2 - Prosedur insertLast}
+{Buatlah prosedur insertLast dari sebuah list l dengan l adalah List yang mencatat elemen
+pertama (First) dan elemen terakhir (Last)}
+
+procedure insertLast(input/output l:List, input x:ElType)
+    {List l mungkin kosong}
+    p : Adress
+    p ← newNode(x)
+    if(p ≠ NIL) then
+        if(isEmpty(l)) then
+            (l.first)↑.prev ← p
+            l.first ← p
+        (l.last)↑.next ← p
+        l.last ← p
+
+
+{Soal 3 - Prosedur search}
+{Buatlah fungsi search untuk mengetahui apakah sebuah nilai x terdapat dalam sebuah
+list l. l adalah List yang mencatat elemen pertama (First) dan elemen terakhir (Last) dan
+elemen terakhir adalah dummy}
+
+function search(l:List, x:ElType) → boolean
+    {List l mungkin kosong}
+    found : boolean
+    p : Adress
+    found ← false
+    p ← l.first
+    while(p ≠ NIL and not found) do
+        if(p↑.info = x) then
+            found ← true
+        else
+            p ← p↑.next
+    → found
