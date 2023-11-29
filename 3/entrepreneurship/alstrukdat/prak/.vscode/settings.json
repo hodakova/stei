@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "mesinkarakter.h": "c",
-        "random": "c",
-        "limits": "c"
-    }
-}
