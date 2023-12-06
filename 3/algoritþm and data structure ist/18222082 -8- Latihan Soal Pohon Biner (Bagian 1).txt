@@ -1,0 +1,67 @@
+{ 20231129 - Latihan Soal Pohon Biner (Bagian 1) }
+{ 18222082 - Ahmad Habibie Marjan}
+
+function search (P: BinTree, X: ElType) → boolean
+{ Mengirimkan true jika ada node dari P yang bernilai X }
+    if(isTreeEmpty(P)) then
+        → false
+    else if(P↑.info = X) then
+        → true
+    else
+        → search(P↑.left, X) or search(P↑.right, X)
+
+function isSkewLeft (P: BinTree) → boolean
+{ Mengirimkan true jika P adalah pohon condong kiri }
+    if(isTreeEmpty(P)) then
+        true
+    else if(P↑.right ≠ Nil) then
+        false
+    else
+        → isSkewLeft(P↑.left)
+
+function isSkewRight (P: BinTree) → boolean
+{ Mengirimkan true jika P adalah pohon condong kanan }
+    if(isTreeEmpty(P)) then
+        true
+    else if(P↑.left ≠ Nil) then
+        false
+    else
+        → isSkewRight(P↑.right)
+
+function level (P: BinTree, X: ElType) → integer
+{ Mengirimkan level dari node X yang merupakan salah satu daun dari pohon biner P.
+Akar(P) level-nya adalah 1. Pohon P tidak kosong dan elemen-elemennya unik. }
+    if(P↑.info = X) then
+        → 0
+    else if(search(P↑.left, X)) then
+        → 1 + level(P↑.left, X)
+    else
+        → 1 + level(P↑.right, X)
+
+procedure addDaun (input/Output P: BinTree, input X, Y: ElType, input Kiri: boolean)
+{ I.S. P tidak kosong, X adalah daun Pohon Biner P }
+{ F.S. P bertambah simpulnya, dengan Y sebagai anak kiri X (jika Kiri), atau sebagai
+anak Kanan X (jika not Kiri). Jika ada lebih dari satu daun bernilai X, Y
+ditambahkan pada daun paling kiri. }
+    if(isOneElmt(P)) then
+        if(Kiri) then
+            P↑.left ← NewTreeNode(Y)
+        else
+            P↑.right ← NewTreeNode(Y)
+    else
+        if(search(P↑.left, X)) then
+            addDaun(P↑.left, X, Y, Kiri)
+        else
+            addDaun(P↑.right, X, Y, Kiri)
+
+procedure delDaun (input/output P: BinTree, input X: ElType)
+{ I.S. P tidak kosong, minimum 1 daun bernilai X }
+{ F.S. Semua daun yang bernilai X dihapus dari P }
+    Q : address
+    if(isOneElmt(P)) then
+        Q ← P
+        P ← Nil
+        deallocTreeNode(P)
+    else
+        delDaun(P↑.left, X)
+        delDaun(P↑.right, X)

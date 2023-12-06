@@ -1,0 +1,40 @@
+{ 20231129 - Latihan Soal Pohon Biner (Bagian 2) }
+{ 18222082 - Ahmad Habibie Marjan}
+
+function bSearch (p: BinTree, x: ElType) → boolean
+{ Mengirimkan true jika ada node dari p (BST) yang bernilai x }
+    if(isTreeEmpty(p)) then
+        → false
+    else
+        depend on x.key, p↑.info.key
+            x.key < p↑.info.key:
+                → bSearch(p↑.left, x)
+            x.key > p↑.info.key:
+                → bSearch(p↑.right, x)
+            x.key = p↑.info.key:
+                → true
+
+function isBTree (p: BinTree) → boolean
+{ Mengirimkan true jika p adalah balanced tree. Asumsi: p tidak kosong }
+    if(isTreeEmpty(p)) then
+        → true
+    else
+        depth_diff ← depth(p↑.left) - depth(p↑.right)
+        nbSimpul_diff ← nbElmt(p↑.left) - nbElmt(p↑.right)
+        if(depth_diff >= -1 and depth_diff <= 1 and nbSimpul_diff >= -1 and nbSimpul_diff <= -1) then
+            → isBTree(p↑.left) and isBTree(p↑.right)
+        else
+            → false
+
+function buildBST (infos: array [0..99] of integer, nEff: integer) → BinTree
+{ Mengirimkan BST yang semua elemennya ada di infos (tidak terurut dan tidak unik).
+nEff adalah jumlah elemen infos yang terdefinisi, 0 jika kosong. }
+    p : address
+    i : integer
+    if(nEff = 0) then
+        → Nil
+    else
+        p ← NewTreeNode(infos[nEff-1])
+        i traversal[0..nEff-1]
+            insSearchTree(infos[i], p)
+        → p
