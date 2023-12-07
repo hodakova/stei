@@ -77,6 +77,7 @@ procedure insertEdge (input/output g: Graph, input prec, succ: integer)
                     while(pSucc↑.next ≠ NIL) do
                         pSucc ← pSucc↑.next
                     pSucc↑.next ← pSuccNew
+                q↑.nPred ← q↑.nPred + 1
 
 procedure deleteNode (input/output g: Graph, input x: integer)
 { Menghapus simpul x dari g }
@@ -116,4 +117,4 @@ procedure deleteNode (input/output g: Graph, input x: integer)
             if(found) then
                 deallocSuccNode(pSuccDel)
         pTrail ← pTrail↑.next
-    deallocGraphNode(pTrailDel) {asumsi pada deallocGraphNode sudah men-deallocSuccNode semua SuccNode-nya juga}
+    deallocGraphNode(pTrailDel) {asumsi pada deallocGraphNode sudah men-deallocSuccNode semua SuccNode-nya juga mengurangi nPred trail successor-successor-nya}
