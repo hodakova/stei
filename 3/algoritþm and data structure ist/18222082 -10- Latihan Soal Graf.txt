@@ -40,7 +40,8 @@ procedure insertNode (input/output g: Graph, input x: integer, output pn: adrNod
     p : adrNode
     pn ← newGraphNode(x)
     if(pn ≠ NIL) then
-        p ← g.first{insertNodeAfter}
+        p ← g.first
+        {insertNodeAfter}
         while(p↑.next ≠ NIL) then
             p ← p↑.next
         p↑.next ← pn
