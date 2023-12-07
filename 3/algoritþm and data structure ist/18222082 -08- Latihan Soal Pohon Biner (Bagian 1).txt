@@ -32,7 +32,7 @@ function level (P: BinTree, X: ElType) → integer
 { Mengirimkan level dari node X yang merupakan salah satu daun dari pohon biner P.
 Akar(P) level-nya adalah 1. Pohon P tidak kosong dan elemen-elemennya unik. }
     if(P↑.info = X) then
-        → 0
+        → 1
     else if(search(P↑.left, X)) then
         → 1 + level(P↑.left, X)
     else
