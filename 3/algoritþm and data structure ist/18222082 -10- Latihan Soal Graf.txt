@@ -1,0 +1,119 @@
+{ 20231206 - Latihan Soal Graf }
+{ 18222082 - Ahmad Habibie Marjan}
+
+function searchNode (g: Graph, x: integer) → AdrNode
+{ mengembalikan address simpul dengan id=x jika sudah ada pada graph g,
+  NIL jika belum }
+    p : adrNode
+    found : boolean
+    p ← g.first
+    found ← false
+    while(p ≠ NIL and not found) do
+        if(p↑.id = x) then
+            found ← true
+        else
+            p ← p↑.next
+    → p
+
+function searchEdge (g: Graph, prec: integer, succ: integer) → adrSuccNode
+{ mengembalikan address trailer yang menyimpan info busur <prec,succ>
+  jika sudah ada pada graph g, NIL jika belum }
+    pTrail : adrNode
+    pSucc : adrSuccNode
+    found : boolean
+    pTrail ← searchNode(g, prec)
+    if(pTrail ≠ NIL) then
+        found ← false
+        pSucc ← pTrail↑.trail
+        while(pSucc ≠ NIL and not found) do
+            if(pSucc↑.succ↑.id = succ) then
+                found ← true 
+            else
+                pSucc ← pSucc↑.next
+    → pSucc
+
+procedure insertNode (input/output g: Graph, input x: integer, output pn: adrNode)
+{ Menambahkan simpul x ke dalam graph g, jika alokasi x berhasil. }
+{ I.S. g terdefinisi, x terdefinisi dan belum ada pada g. }
+{ F.S. Jika alokasi berhasil, x menjadi elemen terakhir g, pn berisi address simpul x.
+       Jika alokasi gagal, g tetap, pn berisi NIL }
+    p : adrNode
+    pn ← newGraphNode(x)
+    if(pn ≠ NIL) then
+        p ← g.first
+        if(p = NIL) then {asumsi jika g terdefinisi tetapi bisa kosong}
+            {insertNodeFirst}
+            g.first ← pn
+        else
+            {insertNodeAfter}
+            while(p↑.next ≠ NIL) then
+                p ← p↑.next
+            p↑.next ← pn
+
+procedure insertEdge (input/output g: Graph, input prec, succ: integer)
+{ Menambahkan busur dari prec menuju succ ke dalam G }
+{ I.S. g, prec, succ terdefinisi. }
+{ F.S. Jika belum ada busur <prec,succ> di g, maka tambahkan busur <prec,succ> ke g.
+       Jika simpul prec/succ belum ada pada g, tambahkan simpul tersebut dahulu.
+       Jika sudah ada busur <prec,succ> di g, maka g tetap. }
+    p, q : adrNode
+    pSucc, pSuccNew : adrSuccNode
+    if(searchEdge(g, prec, succ) = NIL)
+        p ← searchNode(g, prec)
+        if(p = NIL) then
+            insertNode(g, prec, p)
+        q ← searchNode(g, succ)
+        if(q = NIL) then
+            insertNode(g, succ, q)
+        if(p ≠ NIL and q ≠ NIL) then
+            pSuccNew ← newSuccNode(q)
+            if(pSuccNew ≠ NIL)
+                pSucc ← p↑.trail
+                if(pSucc = NIL)
+                    {insertEdgeFirst}
+                    p↑.trail ← pSuccNew
+                else
+                    {insertEdgeAfter}
+                    while(pSucc↑.next ≠ NIL) do
+                        pSucc ← pSucc↑.next
+                    pSucc↑.next ← pSuccNew
+
+procedure deleteNode (input/output g: Graph, input x: integer)
+{ Menghapus simpul x dari g }
+{ I.S. g terdefinisi, x terdefinisi dan ada pada g, jumlah simpul pada g lebih dari 1. }
+{ F.S. simpul x dan semua busur yang terhubung ke x dihapus dari g. }
+    pTrail, pTrailPrec, pTrailDel : adrNode
+    pSucc, pSuccDel : adrSuccNode
+    found : boolean
+    pTrail ← g.first
+    if(pTrail↑.id = x) then
+        {deleteNodeFirst}
+        pTrailDel ← pTrail
+        g.first ← pTrail↑.next
+    while(pTrail↑.next ≠ NIL) do {karena x ada pada g, jumlah element g pasti ≥ 1}
+        if(pTrail↑.next↑.id = x) then
+            {deleteNodeAfter}
+            pTrailDel ← pTrail
+            pTrail↑.next ← pTrail↑.next↑.next
+        else
+            pSucc ← pTrail↑.next↑.trail
+            found ← false
+            {pen-delete-an SuccNode bisa tidak dilakukan atau hanya akan dilakukan sekali pada setiap Trail-nya}
+            if(pSucc↑.succ↑.id = x) then
+                {deleteSuccNodeFirst}
+                pSuccDel ← pSucc↑.succ↑
+                pTrail↑.next↑.trail ← pSucc↑.next
+                found ← true
+            else
+                {deleteSuccNodeAfter}
+                while(pSucc↑.next ≠ NIL and not found) do
+                    if(pSucc↑.next↑.succ↑.id = x) then
+                        found ← true
+                        pSuccDel ← pSucc↑.next
+                        pSucc↑.next ← pSucc↑.next↑.next
+                    else
+                        pSucc ← pSucc↑.next
+            if(found) then
+                deallocSuccNode(pSuccDel)
+        pTrail ← pTrail↑.next
+    deallocGraphNode(pTrailDel) {asumsi pada deallocGraphNode sudah men-deallocSuccNode semua SuccNode-nya juga}
