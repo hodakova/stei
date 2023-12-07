@@ -40,15 +40,10 @@ procedure insertNode (input/output g: Graph, input x: integer, output pn: adrNod
     p : adrNode
     pn ← newGraphNode(x)
     if(pn ≠ NIL) then
-        p ← g.first
-        if(p = NIL) then {asumsi jika g terdefinisi tetapi bisa kosong}
-            {insertNodeFirst}
-            g.first ← pn
-        else
-            {insertNodeAfter}
-            while(p↑.next ≠ NIL) then
-                p ← p↑.next
-            p↑.next ← pn
+        p ← g.first{insertNodeAfter}
+        while(p↑.next ≠ NIL) then
+            p ← p↑.next
+        p↑.next ← pn
 
 procedure insertEdge (input/output g: Graph, input prec, succ: integer)
 { Menambahkan busur dari prec menuju succ ke dalam G }
