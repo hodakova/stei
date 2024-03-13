@@ -1,0 +1,1 @@
+lampu berkedip dengan frekuensi 2 hz.
